@@ -1,0 +1,52 @@
+cabal-version:       >=1.10
+name:                sandwatch
+version:             0.1.0.0
+license:             BSD3
+license-file:        LICENSE
+author:              Shae Erisson
+maintainer:          shae@scannedinavian.com
+build-type:          Simple
+extra-source-files:  CHANGELOG.md, README.md
+
+library
+  exposed-modules:     MyLib
+  ghc-options: -Wall -O2
+  build-depends:       aeson >= 1.4.7.1
+                     , base >=4.14 && <4.15
+                     , criterion-measurement
+                     , bytestring
+                     , directory
+                     , process
+                     , text
+                     , time
+  hs-source-dirs:      src
+  default-language:    Haskell2010
+
+executable sandwatch
+  main-is:             Main.hs
+  ghc-options: -Wall -O2
+  build-depends:       aeson >= 1.4.7.1
+                     , base >=4.14 && <4.15
+                     , criterion-measurement
+                     , directory
+                     , process
+                     , sandwatch
+                     , bytestring
+                     , text
+                     , time
+  default-language:    Haskell2010
+
+test-suite sandwatch-test
+  default-language:    Haskell2010
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             MyLibTest.hs
+  ghc-options: -Wall -O2
+  build-depends:       aeson >= 1.4.7.1
+                     , base >=4.14 && <4.15
+                     , criterion-measurement
+                     , directory
+                     , bytestring
+                     , process
+                     , text
+                     , time
