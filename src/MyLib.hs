@@ -5,13 +5,13 @@ module MyLib where
 
 import           Data.Aeson
 import           Data.Aeson.Text
-import qualified Data.ByteString   as BS
+import qualified Data.ByteString                    as BS
 import           Data.Either
-import           Data.Int          (Int64)
-import qualified Data.Text.Lazy    as T
-import qualified Data.Text.Lazy.IO as TIO
+import           Data.Int                           (Int64)
+import qualified Data.Text.Lazy                     as T
 import           Data.Time
 import           GHC.Generics
+import           System.AtomicWrite.Writer.LazyText
 import           System.Directory
 
 someFunc :: IO ()
@@ -45,7 +45,7 @@ readSandWatchData = do
 writeSandWatchData :: Runs -> IO ()
 writeSandWatchData rs' = do
   sandWatchDataFile <- getSandWatchFilePath
-  TIO.writeFile sandWatchDataFile (encodeToLazyText rs')
+  atomicWriteFile sandWatchDataFile (encodeToLazyText rs')
 
 getSandWatchFilePath :: IO FilePath
 getSandWatchFilePath = do

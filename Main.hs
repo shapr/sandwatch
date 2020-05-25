@@ -10,6 +10,7 @@ import           System.Directory            (getCurrentDirectory)
 import           System.Environment
 import           System.Process
 -- | A sandwich takes five minutes according to my poll: https://twitter.com/shapr/status/1263950892744806402
+sandwichSeconds :: Double
 sandwichSeconds = 5 * 60
 
 -- | How many words at the beginning of the command line to match?
