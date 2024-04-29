@@ -1,3 +1,5 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 module Main where
 
 import Criterion.Measurement
@@ -16,7 +18,7 @@ sandwichSeconds = 5 * 60
 
 -- | How many words at the beginning of the command line to match?
 wordsToMatch :: Int
-wordsToMatch = 3
+wordsToMatch = 5
 
 main :: IO ()
 main = do
@@ -36,6 +38,6 @@ main = do
             cpuCycles = measCycles msr
           }
   writeSandWatchData $ Runs (thisRun' : rs history)
-  putStrLn $ "Actual time was " <> formatFloat (measTime msr / sandwichSeconds) <> " sandwiches."
+  putStrLn $ "Estimated time was " <> formatFloat (guess / (5 * 60)) <> " sandwiches, actual time was " <> formatFloat (measTime msr / sandwichSeconds) <> " sandwiches."
   where
     formatFloat f = showFFloat (Just 2) f ""

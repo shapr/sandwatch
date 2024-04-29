@@ -1,6 +1,9 @@
 cabal-version:      >=1.10
+category:           Command Line
 name:               sandwatch
-version:            0.1.0.0
+synopsis:           record historical command runtimes for later prediction
+description:        track historical runtimes for this directory and command, predict if there's time for a sandwich on this run
+version:            0.1.1.0
 license:            BSD3
 license-file:       LICENSE
 author:             Shae Erisson
@@ -14,15 +17,15 @@ library
   exposed-modules:  MyLib
   ghc-options:      -Wall -O2
   build-depends:
-      aeson                  >=1.4.7.1
-    , atomic-write
-    , base                   >=4.14    && <4.15
-    , bytestring
-    , criterion-measurement
-    , directory
-    , process
-    , text
-    , time
+      aeson                  >=1.4.7.1 && < 2.2
+    , atomic-write >= 0.2.0 && < 0.3
+    , base                   >=4.14    && <4.20
+    , bytestring >= 0.11 && < 0.12
+    , criterion-measurement >= 0.2 && < 0.3
+    , directory >= 1.3 && < 1.5
+    , process >= 1.6 && < 1.7
+    , text >= 2.0 && < 2.1
+    , time >= 1.12 && < 1.13
 
   hs-source-dirs:   src
   default-language: Haskell2010
@@ -31,16 +34,16 @@ executable sandwatch
   main-is:          Main.hs
   ghc-options:      -Wall -O2
   build-depends:
-      aeson                  >=1.4.7.1
-    , atomic-write
-    , base                   >=4.14    && <4.15
-    , bytestring
-    , criterion-measurement
-    , directory
-    , process
+      aeson                  >=1.4.7.1 && < 2.2
+    , atomic-write >= 0.2.0 && < 0.3
+    , base                   >=4.14    && <4.20
+    , bytestring >= 0.11 && < 0.12
+    , criterion-measurement >= 0.2 && < 0.3
+    , directory >= 1.3 && < 1.5
+    , process >= 1.6 && < 1.7
     , sandwatch
-    , text
-    , time
+    , text >= 2.0 && < 2.1
+    , time >= 1.12 && < 1.13
 
   default-language: Haskell2010
 
@@ -51,12 +54,12 @@ test-suite sandwatch-test
   main-is:          MyLibTest.hs
   ghc-options:      -Wall -O2
   build-depends:
-      aeson                  >=1.4.7.1
-    , atomic-write
-    , base                   >=4.14    && <4.15
-    , bytestring
-    , criterion-measurement
-    , directory
-    , process
-    , text
-    , time
+      aeson                  >=1.4.7.1 && < 2.2
+    , atomic-write >= 0.2.0 && < 0.3
+    , base                   >=4.14    && <4.20
+    , bytestring >= 0.11 && < 0.12
+    , criterion-measurement >= 0.2 && < 0.3
+    , directory >= 1.3 && < 1.5
+    , process >= 1.6 && < 1.7
+    , text >= 2.0 && < 2.1
+    , time >= 1.12 && < 1.13

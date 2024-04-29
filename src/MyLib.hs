@@ -13,49 +13,54 @@ import qualified Data.Text.Lazy as T
 import Data.Time
 import GHC.Generics
 import System.AtomicWrite.Writer.LazyText
-import System.Directory
+import System.Directory (
+    XdgDirectory (XdgData),
+    createDirectoryIfMissing,
+    doesFileExist,
+    getXdgDirectory,
+ )
 
 someFunc :: IO ()
 someFunc = putStrLn "someFunc"
 
 -- datatype
 data Run = Run
-  { tstamp :: !UTCTime, -- when was this run?
-    cmdline :: !T.Text, -- what was the command?
-    cwd :: !T.Text,
-    runTime :: !Double, -- seconds of wall clock time
-    cpuTime :: !Double, -- cpu seconds
-    cpuCycles :: !Int64 -- cpu cycles from rdtsc instruction
-  }
-  deriving (Show, Eq, Ord, Generic, ToJSON, FromJSON)
+    { tstamp :: !UTCTime -- when was this run?
+    , cmdline :: !T.Text -- what was the command?
+    , cwd :: !T.Text
+    , runTime :: !Double -- seconds of wall clock time
+    , cpuTime :: !Double -- cpu seconds
+    , cpuCycles :: !Int64 -- cpu cycles from rdtsc instruction
+    }
+    deriving (Show, Eq, Ord, Generic, ToJSON, FromJSON)
 
 -- ugh, I wish there was an easier way, but whatever
 data Runs = Runs
-  { rs :: ![Run]
-  }
-  deriving (Show, Eq, Ord, Generic, ToJSON, FromJSON)
+    { rs :: ![Run]
+    }
+    deriving (Show, Eq, Ord, Generic, ToJSON, FromJSON)
 
 -- read and write data
 readSandWatchData :: IO Runs
 readSandWatchData = do
-  sandWatchDataFile <- getSandWatchFilePath
-  dataExists <- doesFileExist sandWatchDataFile
-  if not dataExists
-    then pure $ Runs []
-    else do
-      contents <- BS.readFile sandWatchDataFile
-      pure $ fromRight (Runs []) (eitherDecodeStrict contents) -- failed to parse json? you get an empty history!
+    sandWatchDataFile <- getSandWatchFilePath
+    dataExists <- doesFileExist sandWatchDataFile
+    if not dataExists
+        then pure $ Runs []
+        else do
+            contents <- BS.readFile sandWatchDataFile
+            pure $ fromRight (Runs []) (eitherDecodeStrict contents) -- failed to parse json? you get an empty history!
 
 writeSandWatchData :: Runs -> IO ()
 writeSandWatchData rs' = do
-  sandWatchDataFile <- getSandWatchFilePath
-  atomicWriteFile sandWatchDataFile (encodeToLazyText rs')
+    sandWatchDataFile <- getSandWatchFilePath
+    atomicWriteFile sandWatchDataFile (encodeToLazyText rs')
 
 getSandWatchFilePath :: IO FilePath
 getSandWatchFilePath = do
-  sandWatchDir <- getXdgDirectory XdgData "sandwatch"
-  createDirectoryIfMissing True sandWatchDir -- is this a bad place to do this?
-  pure $ sandWatchDir <> "/runs"
+    sandWatchDir <- getXdgDirectory XdgData "sandwatch"
+    createDirectoryIfMissing True sandWatchDir -- is this a bad place to do this?
+    pure $ sandWatchDir <> "/runs"
 
 -- analyze
 
